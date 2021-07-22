@@ -5,22 +5,32 @@ const getMessages = () => {
      const data = snapshot.val();
      console.log(data);
      // Find message
+
+     findMessage(data);
  });
 }
 
 const findMessage = (messages) => {
- const passcodeAttempt = document.querySelector('#passcode').value;
- for (message in messages) {
-     const messageData = messages[message];
-     if (messageData.passcode === passcodeAttempt) {
-         // Code to hide input form, and render message as HTML
-     }
- }
+    const passcodeAttempt = document.querySelector('#passcode').value;
+    const hashPass = new Hashes.SHA1().hex(passcodeAttempt);
+    console.log("Hashed pass: " + hashPass);      
+    for (message in messages) {
+        const messageData = messages[message];
+        if (messageData.passcode === hashPass) {
+            // Code to hide input form, and render message as HTML
+            renderMessageAsHtml(messageData.message);
+        }
+    }
 }
 
-
 const renderMessageAsHtml = (message) => {
- // Hide Input Form
-
- // Render messageas HTML
+    // Hide the passcode view
+    
+    const passcodeInput = document.querySelector('#passcodeInput');
+    passcodeInput.style.display = 'none';
+    
+    // Show the message
+    
+    const messageDiv = document.querySelector('#message');
+    messageDiv.innerHTML = message;
 }
